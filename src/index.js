@@ -17,7 +17,6 @@ app.use(
 app.use(express.json()); // phân tích dữ liệu JSON trong yêu cầu
 app.use(express.urlencoded({ extended: true })); // phân tích dữ liệu URL-encoded trong yêu cầu
 
-// mount router
 app.use("/seller-address", sellerAddressRouter);
 
 app.get("/", (req, res) => {
