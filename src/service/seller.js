@@ -21,7 +21,7 @@ async function sendOtpVerify({ email, otp }) {
   return transporter.sendMail(mailOptions);
 }
 
-// Hàm tạo SellerAddress
+// api SellerAddress
 async function createSellerAddress(createSellerAddressDto, user_id) {
   const {
     name,
