@@ -1,10 +1,18 @@
 const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize("db_name", "db_user", "db_password", {
-  host: "db_host",
-  port: "3306",
-  dialect: "mysql",
-  logging: false,
-});
+// Load biến môi trường từ file .env
+require("dotenv").config();
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "mysql",
+    logging: false,
+  }
+);
 
 module.exports = sequelize;
