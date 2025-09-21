@@ -76,7 +76,7 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
         });
 
         if (!data.messageId) {
-          return { success: false, message: "Failed to send email" };
+          return { success: false, message: "Gửi mail thất bại" };
         }
       }
 
