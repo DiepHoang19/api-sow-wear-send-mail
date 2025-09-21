@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 const { Seller, User, SellerAddress } = require("../models/index"); // import models
 
-// Hàm gửi email OTP
 async function sendOtpVerify({ email, otp }) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
