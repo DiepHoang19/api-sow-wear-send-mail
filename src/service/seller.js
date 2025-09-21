@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const { sequelize, Seller, User, SellerAddress } = require("../../models"); // import models
+const { Seller, User, SellerAddress } = require("../models/index"); // import models
 
 // Hàm gửi email OTP
 async function sendOtpVerify({ email, otp }) {
