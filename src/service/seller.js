@@ -23,14 +23,8 @@ async function sendOtpVerify({ email, otp }) {
 
 // Hàm tạo SellerAddress
 async function createSellerAddress(createSellerAddressDto, user_id) {
-  const {
-    name,
-    provinceId,
-    wardId,
-    isMainAddress,
-    phoneNumber,
-    absoluteAddress,
-  } = createSellerAddressDto;
+  const { name, provinceId, wardId, isMainAddress, address } =
+    createSellerAddressDto;
 
   try {
     // Tìm seller hiện tại theo userId
@@ -48,6 +42,7 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
       const sellerNew = await Seller.create({
         user_id: user_id,
         name,
+        address,
       });
 
       // Lấy lại seller có user đi kèm
@@ -81,6 +76,8 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
       const sellerAddressCreated = await SellerAddress.create({
         ...createSellerAddressDto,
         seller_id: sellerNew.id,
+        province_id: provinceId,
+        ward_id: wardId,
       });
 
       return sellerAddressCreated;
