@@ -24,7 +24,6 @@ const Seller = sequelize.define(
     address: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Địa chỉ",
     },
     avatar: {
       type: DataTypes.STRING,
