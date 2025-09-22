@@ -42,7 +42,7 @@ class UserService {
     });
 
     // gửi mail verify
-    const verifyLink = `http://api.sowwear.com/users/verify-account?token=${tokenVerify}`;
+    const verifyLink = `https://api.sowwear.com/users/verify-account?token=${tokenVerify}`;
 
     await transporter.sendMail({
       from: '"Sowwear" <no-reply@sowwear.com>',
