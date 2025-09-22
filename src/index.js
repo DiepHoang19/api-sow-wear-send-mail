@@ -6,6 +6,7 @@ const sequelize = require("./config/database");
 const app = express();
 
 const sellerAddressRouter = require("./routes/index");
+const userProfileRouter = require("./routes/user");
 app.use(
   cors({
     origin: "*", // cho phép tất cả các nguồn gốc (có thể thay đổi theo yêu cầu)
@@ -18,6 +19,7 @@ app.use(express.json()); // phân tích dữ liệu JSON trong yêu cầu
 app.use(express.urlencoded({ extended: true })); // phân tích dữ liệu URL-encoded trong yêu cầu
 
 app.use("/seller-address", sellerAddressRouter);
+app.use("/users", userProfileRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello from Vercel!");

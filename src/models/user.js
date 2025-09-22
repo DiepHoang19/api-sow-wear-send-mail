@@ -78,6 +78,7 @@ User.beforeCreate(async (user, options) => {
 
 User.associate = (models) => {
   User.hasMany(models.Seller, { foreignKey: "user_id", as: "sellers" });
+  User.hasOne(models.UserProfile, { foreignKey: "user_id", as: "profile" });
 };
 
 module.exports = User;

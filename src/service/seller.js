@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 const { Seller, User, SellerAddress } = require("../models/index"); // import models
 
 async function sendOtpVerify({ email, otp }) {
-  console.log("🚀 ~ sendOtpVerify ~ email:", email);
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -17,7 +16,6 @@ async function sendOtpVerify({ email, otp }) {
     subject: "Xác thực tài khoản",
     text: `Mã OTP của bạn là: ${otp}`,
   };
-  console.log("🚀 ~ sendOtpVerify ~ mailOptions:", mailOptions);
 
   return transporter.sendMail(mailOptions);
 }
@@ -45,8 +43,6 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
       },
     });
 
-    console.log("seller", seller);
-
     // Nếu chưa có seller => tạo mới
     if (!seller) {
       const sellerNew = await Seller.create({
@@ -54,7 +50,6 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
         name,
         address,
       });
-      console.log("🚀 ~ createSellerAddress ~ sellerNew:", sellerNew);
 
       // Lấy lại seller có user đi kèm
       const sellerWithUser = await Seller.findOne({
@@ -65,13 +60,8 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
           attributes: ["email"],
         },
       });
-      console.log("🚀 ~ createSellerAddress ~ sellerWithUser:", sellerWithUser);
 
       if (sellerWithUser && sellerWithUser?.user?.email) {
-        console.log(
-          "🚀 ~ createSellerAddress ~ sellerWithUser?.user?.email:",
-          sellerWithUser?.user?.email
-        );
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
         await Seller.update(
