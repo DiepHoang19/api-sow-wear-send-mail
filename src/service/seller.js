@@ -27,7 +27,6 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
     provinceId,
     wardId,
     isMainAddress,
-    address,
     absoluteAddress,
     phoneNumber,
   } = createSellerAddressDto;
@@ -48,7 +47,6 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
       const sellerNew = await Seller.create({
         user_id: user_id,
         name,
-        address,
       });
 
       // Lấy lại seller có user đi kèm
