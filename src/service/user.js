@@ -15,7 +15,10 @@ class UserService {
   static async registerUser({ email, password, userType, profile }) {
     const { username, fullname, intro, phoneNumber, avatar } = profile;
     // check email
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({
+      where: { email, deleted_at: null },
+    });
+
     if (existingUser) {
       throw new Error("Email đã tồn tại");
     }
