@@ -88,6 +88,7 @@ async function createSellerAddress(createSellerAddressDto, user_id) {
         absolute_address: absoluteAddress,
         phone_number: phoneNumber,
         is_main_address: isMainAddress,
+        address: absoluteAddress,
       });
 
       return sellerAddressCreated;
