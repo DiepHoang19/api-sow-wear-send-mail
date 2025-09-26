@@ -23,7 +23,7 @@ const Seller = sequelize.define(
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     avatar: {
       type: DataTypes.STRING,
