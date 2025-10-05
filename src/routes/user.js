@@ -36,9 +36,9 @@ router.get("/verify", async (req, res) => {
   }
 });
 
-router.get("/forgot-password", async (req, res) => {
+router.post("/forgot-password", async (req, res) => {
   try {
-    const { email } = req.query;
+    const { email } = req.body;
 
     // 1️⃣ Kiểm tra email
     if (!email || typeof email !== "string") {

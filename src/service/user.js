@@ -102,8 +102,8 @@ class UserService {
             <h2>Xin chào ${user.fullname || user.username || "bạn"},</h2>
             <p>Bạn đã yêu cầu đặt lại mật khẩu tài khoản Sowwear.</p>
             <p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>
-            <a href="https://sowwear.com/login?token=${hashEmail}" 
-               style="display: inline-block; background-color: #007bff; color: white; 
+            <a href="https://sowwear.com/login?token=${hashEmail}"
+               style="display: inline-block; background-color: #007bff; color: white;
                       padding: 10px 20px; border-radius: 5px; text-decoration: none;">
               Xác nhận thay đổi mật khẩu
             </a>
