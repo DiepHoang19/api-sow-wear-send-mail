@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const Discount = require("../models/discount");
+const ReferralCode = require("../models/referral_code");
+const ReferralReferrals = require("../models/referral_referrals");
 const UserProfile = require("../models/user-profile");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
@@ -10,6 +13,18 @@ const transporter = nodemailer.createTransport({
     pass: "gopp pcll xpcb lwno",
   },
 });
+
+function generateRandomCode(length = 8) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    const index = Math.floor(Math.random() * chars.length);
+    result += chars[index];
+  }
+
+  return result;
+}
 
 class UserService {
   static async registerUser({ email, password, userType, profile }) {
@@ -43,6 +58,25 @@ class UserService {
       phoneNumber,
       avatar,
     });
+
+    const discountId = await Discount.findOne({ deleted_at: null });
+    if (user?.id) {
+      const data = await ReferralCode.create({
+        referrer_user_id: dataUser.id,
+        code: generateRandomCode(),
+      });
+      if (data?.referrer_user_id) {
+        await ReferralReferrals.create({
+          // invitee_user_id: null,
+          registered_at: new Date(),
+          invitee_reward_status: "pending",
+          referrer_reward_status: "pending",
+          referrer_user_id: data.referrer_user_id,
+          discount_id: discountId?.id,
+          referral_code_id: data.id,
+        });
+      }
+    }
 
     // gửi mail verify
     const verifyLink = `https://api.sowwear.com/users/verify-account?token=${tokenVerify}`;
