@@ -59,10 +59,22 @@ class UserService {
       avatar,
     });
 
+    // gửi mail verify
+    const verifyLink = `https://api.sowwear.com/users/verify-account?token=${tokenVerify}`;
+
+    await transporter.sendMail({
+      from: '"Sowwear" <no-reply@sowwear.com>',
+      to: email,
+      subject: "Xác minh tài khoản Sowwear",
+      html: `<p>Xin chào ${profile?.fullname || profile?.username || "bạn"},</p>
+             <p>Nhấn vào link sau để xác minh tài khoản:</p>
+             <a href="${verifyLink}">${verifyLink}</a>`,
+    });
+
     const discountId = await Discount.findOne({ deleted_at: null });
-    if (user?.id) {
+    if (user?.id && discountId?.id) {
       const data = await ReferralCode.create({
-        referrer_user_id: dataUser.id,
+        referrer_user_id: user.id,
         code: generateRandomCode(),
       });
       if (data?.referrer_user_id) {
@@ -77,18 +89,6 @@ class UserService {
         });
       }
     }
-
-    // gửi mail verify
-    const verifyLink = `https://api.sowwear.com/users/verify-account?token=${tokenVerify}`;
-
-    await transporter.sendMail({
-      from: '"Sowwear" <no-reply@sowwear.com>',
-      to: email,
-      subject: "Xác minh tài khoản Sowwear",
-      html: `<p>Xin chào ${profile?.fullname || profile?.username || "bạn"},</p>
-             <p>Nhấn vào link sau để xác minh tài khoản:</p>
-             <a href="${verifyLink}">${verifyLink}</a>`,
-    });
 
     return {
       id: user.id,

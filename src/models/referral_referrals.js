@@ -24,7 +24,7 @@ const ReferralReferrals = sequelize.define(
 
     invitee_user_id: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       comment: "Người được giới thiệu (users.id)",
     },
 
