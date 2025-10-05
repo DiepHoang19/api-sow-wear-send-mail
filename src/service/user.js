@@ -96,7 +96,7 @@ class UserService {
     await transporter.sendMail({
       from: '"Sowwear" <no-reply@sowwear.com>',
       to: email,
-      subject: "XYêu cầu thay đổi mật khẩu",
+      subject: "Yêu cầu thay đổi mật khẩu",
       html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <h2>Xin chào ${user.fullname || user.username || "bạn"},</h2>
