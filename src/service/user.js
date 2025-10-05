@@ -75,6 +75,50 @@ class UserService {
 
     return user;
   }
+
+  static async sendEmailChangePassword(email) {
+    const user = await User.findOne({
+      where: { email },
+      attributes: { exclude: ["password"] },
+    });
+    if (!user) {
+      throw new Error("Không tìm thấy tài khoản trong hệ thống.");
+    }
+
+    // 2️⃣ Tạo token (mã hóa base64)
+    const hashEmail = Buffer.from(email).toString("base64");
+
+    // 3️⃣ Cập nhật token vào DB
+    user.token_refetch_password = hashEmail;
+    await user.save();
+
+    // 4️⃣ Cấu hình gửi email
+    await transporter.sendMail({
+      from: '"Sowwear" <no-reply@sowwear.com>',
+      to: email,
+      subject: "XYêu cầu thay đổi mật khẩu",
+      html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <h2>Xin chào ${user.fullname || user.username || "bạn"},</h2>
+            <p>Bạn đã yêu cầu đặt lại mật khẩu tài khoản Sowwear.</p>
+            <p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>
+            <a href="https://sowwear.com/login?token=${hashEmail}" 
+               style="display: inline-block; background-color: #007bff; color: white; 
+                      padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+              Xác nhận thay đổi mật khẩu
+            </a>
+            <p>Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
+            <hr />
+            <p style="font-size: 12px; color: #999;">Liên kết này sẽ hết hạn trong 1 giờ.</p>
+          </div>
+        `,
+    });
+
+    return {
+      success: true,
+      message: "Email đặt lại mật khẩu đã được gửi thành công.",
+    };
+  }
 }
 
 module.exports = UserService;

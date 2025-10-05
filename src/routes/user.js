@@ -27,12 +27,49 @@ router.post("/register", async (req, res) => {
 router.get("/verify", async (req, res) => {
   try {
     const { token } = req.query;
-    const user = await UserService.verifyUser(token);
+    await UserService.verifyUser(token);
 
     return res.redirect("https://sowwear.com/login?verified=success");
   } catch (err) {
     console.error(err);
     return res.redirect("https://sowwear.com/login?verified=failed");
+  }
+});
+
+router.get("/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    // 1️⃣ Kiểm tra email
+    if (!email || typeof email !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Vui lòng cung cấp email hợp lệ.",
+      });
+    }
+
+    // 2️⃣ Gửi email đặt lại mật khẩu
+    const result = await UserService.sendEmailChangePassword(email);
+
+    // 3️⃣ Xử lý phản hồi từ service
+    if (result.success) {
+      return res.status(200).json({
+        success: true,
+        message:
+          "Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: result.message || "Không thể gửi email đặt lại mật khẩu.",
+      });
+    }
+  } catch (err) {
+    console.error("❌ Lỗi khi xử lý forgot-password:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau.",
+    });
   }
 });
 
