@@ -7,6 +7,8 @@ const app = express();
 
 const sellerAddressRouter = require("./routes/index");
 const userProfileRouter = require("./routes/user");
+const sendMail = require("./routes/send-mail");
+
 app.use(
   cors({
     origin: "*", // cho phép tất cả các nguồn gốc (có thể thay đổi theo yêu cầu)
@@ -20,6 +22,7 @@ app.use(express.urlencoded({ extended: true })); // phân tích dữ liệu URL-
 
 app.use("/seller-address", sellerAddressRouter);
 app.use("/users", userProfileRouter);
+app.use("/send-mail", sendMail);
 
 app.get("/", (req, res) => {
   res.send("Hello from Vercel!");
