@@ -5,13 +5,13 @@ async function sendOtpVerify({ email, otp }) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "wearsow99@gmail.com",
-      pass: "gopp pcll xpcb lwno",
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: "wearsow99@gmail.com",
+    from: process.env.MAIL_FROM,
     to: email,
     subject: "Xác thực tài khoản",
     text: `Mã OTP của bạn là: ${otp}`,
