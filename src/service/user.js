@@ -35,7 +35,7 @@ class UserService {
     });
 
     if (existingUser) {
-      throw new Error("Email đã tồn tại");
+      throw new Error("Email này đã được đăng ký. Bạn có thể đăng nhập để tiếp tục");
     }
 
     // tạo token verify
