@@ -5,7 +5,11 @@ const ReferralReferrals = require("../models/referral_referrals");
 const UserProfile = require("../models/user-profile");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const { RESET_PASSWORD_EMAIL_HTML } = require("../template/email");
+const {
+  RESET_PASSWORD_EMAIL_HTML,
+  RESET_PASSWORD_EMAIL_SUBJECT,
+  VERIFY_ACCOUNT_EMAIL_SUBJECT,
+} = require("../template/email");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -68,10 +72,12 @@ class UserService {
     await transporter.sendMail({
       from: '"Sowwear" <no-reply@sowwear.com>',
       to: email,
-      subject: "Xác minh tài khoản Sowwear",
-      html: `<p>Xin chào ${profile?.fullname || profile?.username || "bạn"},</p>
-             <p>Nhấn vào link sau để xác minh tài khoản:</p>
-             <a href="${verifyLink}">${verifyLink}</a>`,
+      subject: VERIFY_ACCOUNT_EMAIL_SUBJECT,
+      html: VERIFY_ACCOUNT_EMAIL_HTML(
+        profile?.fullname || profile?.username || "bạn",
+        verifyLink,
+        10
+      ),
     });
 
     const discountId = await Discount.findOne({ deleted_at: null });
@@ -135,22 +141,7 @@ class UserService {
     await transporter.sendMail({
       from: '"Sowwear" <no-reply@sowwear.com>',
       to: email,
-      subject: "Yêu cầu thay đổi mật khẩu",
-      //   html: `
-      //       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      //         <h2>Xin chào ${user.fullname || user.username || "bạn"},</h2>
-      //         <p>Bạn đã yêu cầu đặt lại mật khẩu tài khoản Sowwear.</p>
-      //         <p>Nhấn vào liên kết bên dưới để thay đổi mật khẩu của bạn:</p>
-      //         <a href="https://sowwear.com/change-password?token=${hashEmail}"
-      //            style="display: inline-block; background-color: #007bff; color: white;
-      //                   padding: 10px 20px; border-radius: 5px; text-decoration: none;">
-      //           Xác nhận thay đổi mật khẩu
-      //         </a>
-      //         <p>Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
-      //         <hr />
-      //         <p style="font-size: 12px; color: #999;">Liên kết này sẽ hết hạn trong 1 giờ.</p>
-      //       </div>
-      //     `,
+      subject: RESET_PASSWORD_EMAIL_SUBJECT,
       html: RESET_PASSWORD_EMAIL_HTML(
         user.fullname || user.username || "bạn",
         resetLink,
