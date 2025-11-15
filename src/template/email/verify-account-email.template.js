@@ -136,7 +136,7 @@ export const VERIFY_ACCOUNT_EMAIL_HTML = (
       .verification-link {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
-        color: #007bff;
+        color: #fff;
         line-height: 1.6;
         padding: 0 0 20px 0;
         word-break: break-all;
@@ -307,7 +307,7 @@ export const VERIFY_ACCOUNT_EMAIL_HTML = (
                         </tr>
                         <tr>
                           <td align="center" class="verification-link">
-                            <a href="${verificationLink}" style="color: #007bff; text-decoration: underline;">
+                            <a href="${verificationLink}" style="color: #fff; text-decoration: underline;">
                               ${verificationLink}
                             </a>
                           </td>
