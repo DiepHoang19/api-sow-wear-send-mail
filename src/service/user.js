@@ -9,6 +9,7 @@ const {
   RESET_PASSWORD_EMAIL_HTML,
   RESET_PASSWORD_EMAIL_SUBJECT,
   VERIFY_ACCOUNT_EMAIL_SUBJECT,
+  VERIFY_ACCOUNT_EMAIL_HTML,
 } = require("../template/email");
 
 const transporter = nodemailer.createTransport({
